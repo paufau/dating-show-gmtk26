@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Staged, non-deleted .cs files
+files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.cs')
+[ -z "$files" ] && exit 0
+
+# Format them
+if ! git diff --cached --name-only --diff-filter=ACMR -z -- '*.cs' \
+  | xargs -0 dotnet csharpier format; then
+  echo "csharpier: formatting failed, aborting commit" >&2
+  exit 1
+fi
+
+# Re-stage so the formatted version is what actually gets committed
+git diff --cached --name-only --diff-filter=ACMR -z -- '*.cs' | xargs -0 git add
