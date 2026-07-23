@@ -86,11 +86,13 @@ public class LinesRepository
     public static Dictionary<Tag, Dictionary<Tag, ReactionLine[]>> PositiveReactionLines = new()
     {
         { Tags.Rich, RichPositive.Lines },
+        { Tags.Romantic, RomanticPositive.Lines },
     };
 
     public static Dictionary<Tag, Dictionary<Tag, ReactionLine[]>> NegativeReactionLines = new()
     {
         { Tags.Rich, RichNegative.Lines },
+        { Tags.Romantic, RomanticNegative.Lines },
     };
 
     public static ReactionLine[] DefaultPositiveReactions = DefaultPositive.Reactions;
