@@ -18,6 +18,13 @@ public struct Line
 public struct ReactionLine
 {
     public string Text;
+    public Line[] NextLines;
+    public int Cooldown;
+}
+
+public static class Constants
+{
+    public static int DEFAULT_COOLDOWN = 5;
 }
 
 public static class Tags
@@ -46,22 +53,34 @@ public class LinesRepository
         { Tags.Funny, Tags.Smart },
     };
 
-    public static Dictionary<Tag, Dictionary<int, ReactionLine[]>> RichLines = new()
+    public static ReactionLine[] RichLines = new ReactionLine[]
     {
+        new ReactionLine()
         {
-            Tags.Rich,
-            new()
-            {
+            Cooldown = Constants.DEFAULT_COOLDOWN,
+            Text = "Ммм, неплохо. У тебя свой бизнес?",
+            NextLines =
+            [
+                new Line()
                 {
-                    1,
-                    new ReactionLine[] { new ReactionLine() { Text = "Ой, ты такой скромяшка" } }
+                    Text = "Я криптоинвестор",
+                    Tags = [Tags.Rich, Tags.Smart],
+                    TTL = 1,
                 },
-            }
+                new Line()
+                {
+                    Text = "Наследство от бабули",
+                    Tags = [Tags.Romantic, Tags.Funny],
+                    TTL = 1,
+                },
+            ],
         },
     };
 
-    public static Dictionary<Tag, Dictionary<Tag, Dictionary<int, ReactionLine[]>>> ReactionLines =
-        new() { { Tags.Rich, RichLines } };
+    public static Dictionary<Tag, ReactionLine[]> ReactionLines = new()
+    {
+        { Tags.Rich, RichLines },
+    };
 
     public static Line[] InitialLines =
     [

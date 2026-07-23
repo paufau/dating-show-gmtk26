@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dulitgk76akux"]
+
+[ext_resource type="Script" uid="uid://gaadvyq87fgq" path="res://Entities/Girl/Girl.cs" id="1_re1c2"]
+
+[node name="Girl" type="Control" unique_id=1069343516 node_paths=PackedStringArray("SpeechLabel")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_re1c2")
+SpeechLabel = NodePath("Label")
+
+[node name="Label" type="Label" parent="." unique_id=1150066830]
+layout_mode = 1
+offset_right = 120.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 48
+text = "Hello"
