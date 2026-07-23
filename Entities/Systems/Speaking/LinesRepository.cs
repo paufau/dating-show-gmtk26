@@ -83,61 +83,19 @@ public class LinesRepository
         return false;
     }
 
-    public static Dictionary<Tag, ReactionLine[]> RichLines = new()
+    public static Dictionary<Tag, Dictionary<Tag, ReactionLine[]>> PositiveReactionLines = new()
     {
-        {
-            Tags.Rich,
-            [
-                new ReactionLine()
-                {
-                    Cooldown = Constants.DEFAULT_COOLDOWN,
-                    Text = "Ммм, неплохо. У тебя свой бизнес?",
-                    NextLines =
-                    [
-                        new Line()
-                        {
-                            Text = "Я криптоинвестор",
-                            Tags = [Tags.Rich, Tags.Smart],
-                            TTL = 1,
-                        },
-                        new Line()
-                        {
-                            Text = "Наследство от бабули",
-                            Tags = [Tags.Romantic, Tags.Funny],
-                            TTL = 1,
-                        },
-                    ],
-                },
-            ]
-        },
+        { Tags.Rich, RichPositive.Lines },
     };
 
-    public static Dictionary<Tag, Dictionary<Tag, ReactionLine[]>> ReactionLines = new()
+    public static Dictionary<Tag, Dictionary<Tag, ReactionLine[]>> NegativeReactionLines = new()
     {
-        { Tags.Rich, RichLines },
+        { Tags.Rich, RichNegative.Lines },
     };
 
-    public static ReactionLine[] DefaultReactions =
-    [
-        new ReactionLine()
-        {
-            Cooldown = Constants.FALLBACK_COOLDOWN,
-            Text = "Ага...",
-            NextLines = [],
-        },
-        new ReactionLine()
-        {
-            Cooldown = Constants.FALLBACK_COOLDOWN,
-            Text = "Ну ладно...",
-            NextLines = [],
-        },
-        new ReactionLine()
-        {
-            Cooldown = Constants.FALLBACK_COOLDOWN,
-            Text = "Скучно...",
-            NextLines = [],
-        },
-    ];
+    public static ReactionLine[] DefaultPositiveReactions = DefaultPositive.Reactions;
+    public static ReactionLine[] DefaultNegativeReactions = DefaultNegative.Reactions;
+    public static ReactionLine[] DefaultReactions = DefaultNeutral.Reactions;
 
     public static Line[] InitialLines =
     [

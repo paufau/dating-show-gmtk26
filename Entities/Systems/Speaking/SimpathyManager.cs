@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Game;
@@ -31,16 +32,43 @@ public class SimpathyManager
 
     public ReactionLine GetReaction(GirlData girl, LineReactionComponent[] reactionComponents)
     {
-        var likedComponents = reactionComponents.Where(component => component.Power > 0).ToArray();
+        var valence = reactionComponents.Sum(component => component.Power);
 
+        if (valence > 0)
+        {
+            return GetValencedReaction(
+                girl,
+                reactionComponents.Where(component => component.Power > 0).ToArray(),
+                LinesRepository.PositiveReactionLines,
+                LinesRepository.DefaultPositiveReactions
+            );
+        }
+
+        if (valence < 0)
+        {
+            return GetValencedReaction(
+                girl,
+                reactionComponents.Where(component => component.Power < 0).ToArray(),
+                LinesRepository.NegativeReactionLines,
+                LinesRepository.DefaultNegativeReactions
+            );
+        }
+
+        return LinesRepository.DefaultReactions.PickRandom();
+    }
+
+    private ReactionLine GetValencedReaction(
+        GirlData girl,
+        LineReactionComponent[] valenceComponents,
+        Dictionary<Tag, Dictionary<Tag, ReactionLine[]>> reactionLines,
+        ReactionLine[] fallbackReactions
+    )
+    {
         if (
-            likedComponents.Length > 0
-            && LinesRepository.ReactionLines.TryGetValue(
-                GetDominantTag(girl),
-                out var girlReactions
-            )
+            valenceComponents.Length > 0
+            && reactionLines.TryGetValue(GetDominantTag(girl), out var girlReactions)
             && girlReactions.TryGetValue(
-                GetDominantComponent(likedComponents).Tag,
+                GetDominantComponent(valenceComponents).Tag,
                 out var reactions
             )
             && reactions.Length > 0
@@ -49,13 +77,16 @@ public class SimpathyManager
             return reactions.PickRandom();
         }
 
-        return LinesRepository.DefaultReactions.PickRandom();
+        return fallbackReactions.PickRandom();
     }
 
     public LineReactionComponent GetDominantComponent(LineReactionComponent[] reactionComponents)
     {
-        var maxPower = reactionComponents.Max(component => component.Power);
-        return reactionComponents.Where(component => component.Power == maxPower).PickRandom();
+        var maxPowerAbs = reactionComponents.Max(component => Math.Abs(component.Power));
+
+        return reactionComponents
+            .Where(component => Math.Abs(component.Power) == maxPowerAbs)
+            .PickRandom();
     }
 
     public void UpdateSimpathy(GirlData girl, LineReactionComponent[] reactionComponents)
