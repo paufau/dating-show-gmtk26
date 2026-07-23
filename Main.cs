@@ -20,7 +20,7 @@ public partial class Main : Control
 
     private readonly List<Line> _AvailableLines = new();
     private readonly List<Girl> _Girls = new();
-    private readonly Dictionary<Girl, int> _ReactionCooldowns = new();
+    private readonly Dictionary<Girl, Dictionary<string, int>> _ReactionCooldowns = new();
     private readonly SimpathyManager _SimpathyManager = new();
 
     public override void _Ready()
@@ -60,6 +60,7 @@ public partial class Main : Control
     {
         PruneLines(line);
         UpdateGirlsReactions(line);
+        RefillLinesIfEmpty(line);
         RenderOptions();
     }
 
@@ -92,18 +93,60 @@ public partial class Main : Control
             var reactionComponents = _SimpathyManager.ComputeGirlReaction(girl.Data, pressedLine);
             _SimpathyManager.UpdateSimpathy(girl.Data, reactionComponents);
 
-            if (_ReactionCooldowns.TryGetValue(girl, out var cooldown) && cooldown > 0)
-            {
-                _ReactionCooldowns[girl] = cooldown - 1;
-                continue;
-            }
+            var cooldowns = GetReactionCooldowns(girl);
+            var reaction = _SimpathyManager.GetReaction(
+                girl.Data,
+                reactionComponents,
+                cooldowns.Keys.ToHashSet()
+            );
 
-            var reaction = _SimpathyManager.GetReaction(girl.Data, reactionComponents);
+            TickCooldowns(cooldowns);
+            cooldowns[reaction.Text] = reaction.Cooldown;
 
             girl.SetSpeech(reaction.Text);
-            _ReactionCooldowns[girl] = reaction.Cooldown;
             AddLines(reaction.NextLines);
         }
+    }
+
+    private Dictionary<string, int> GetReactionCooldowns(Girl girl)
+    {
+        if (!_ReactionCooldowns.TryGetValue(girl, out var cooldowns))
+        {
+            cooldowns = new Dictionary<string, int>();
+            _ReactionCooldowns[girl] = cooldowns;
+        }
+
+        return cooldowns;
+    }
+
+    private static void TickCooldowns(Dictionary<string, int> cooldowns)
+    {
+        foreach (var (text, turnsLeft) in cooldowns.ToArray())
+        {
+            if (turnsLeft <= 1)
+            {
+                cooldowns.Remove(text);
+            }
+            else
+            {
+                cooldowns[text] = turnsLeft - 1;
+            }
+        }
+    }
+
+    private void RefillLinesIfEmpty(Line pressedLine)
+    {
+        if (_AvailableLines.Count > 0)
+        {
+            return;
+        }
+
+        // TODO this is a temporary thing, makes sense to introduce meaningfull lines
+        var fallbackLines = LinesRepository
+            .InitialLines.Where(line => !HasTag(line, Tags.Hello) && line.Text != pressedLine.Text)
+            .ToArray();
+
+        AddLines(fallbackLines);
     }
 
     private void AddLines(Line[]? lines)

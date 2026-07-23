@@ -108,7 +108,7 @@ public class LinesRepository
         },
         new Line()
         {
-            Text = "Я на Тесле приехал",
+            Text = "Я на BMW приехал",
             Tags = [Tags.Rich, Tags.Calm],
             ExcludeTags = [Tags.Hello],
             TTL = 3,

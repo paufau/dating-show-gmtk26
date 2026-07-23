@@ -30,7 +30,11 @@ public class SimpathyManager
             .ToArray();
     }
 
-    public ReactionLine GetReaction(GirlData girl, LineReactionComponent[] reactionComponents)
+    public ReactionLine GetReaction(
+        GirlData girl,
+        LineReactionComponent[] reactionComponents,
+        IReadOnlyCollection<string> textsOnCooldown
+    )
     {
         var valence = reactionComponents.Sum(component => component.Power);
 
@@ -40,7 +44,8 @@ public class SimpathyManager
                 girl,
                 reactionComponents.Where(component => component.Power > 0).ToArray(),
                 LinesRepository.PositiveReactionLines,
-                LinesRepository.DefaultPositiveReactions
+                LinesRepository.DefaultPositiveReactions,
+                textsOnCooldown
             );
         }
 
@@ -50,18 +55,20 @@ public class SimpathyManager
                 girl,
                 reactionComponents.Where(component => component.Power < 0).ToArray(),
                 LinesRepository.NegativeReactionLines,
-                LinesRepository.DefaultNegativeReactions
+                LinesRepository.DefaultNegativeReactions,
+                textsOnCooldown
             );
         }
 
-        return LinesRepository.DefaultReactions.PickRandom();
+        return PickAvailable(LinesRepository.DefaultReactions, textsOnCooldown);
     }
 
     private ReactionLine GetValencedReaction(
         GirlData girl,
         LineReactionComponent[] valenceComponents,
         Dictionary<Tag, Dictionary<Tag, ReactionLine[]>> reactionLines,
-        ReactionLine[] fallbackReactions
+        ReactionLine[] fallbackReactions,
+        IReadOnlyCollection<string> textsOnCooldown
     )
     {
         if (
@@ -71,14 +78,32 @@ public class SimpathyManager
                 GetDominantComponent(valenceComponents).Tag,
                 out var reactions
             )
-            && reactions.Length > 0
         )
         {
-            return reactions.PickRandom();
+            var availableReactions = FilterAvailable(reactions, textsOnCooldown);
+
+            if (availableReactions.Length > 0)
+            {
+                return availableReactions.PickRandom();
+            }
         }
 
-        return fallbackReactions.PickRandom();
+        return PickAvailable(fallbackReactions, textsOnCooldown);
     }
+
+    private static ReactionLine PickAvailable(
+        ReactionLine[] reactions,
+        IReadOnlyCollection<string> textsOnCooldown
+    )
+    {
+        var availableReactions = FilterAvailable(reactions, textsOnCooldown);
+        return (availableReactions.Length > 0 ? availableReactions : reactions).PickRandom();
+    }
+
+    private static ReactionLine[] FilterAvailable(
+        ReactionLine[] reactions,
+        IReadOnlyCollection<string> textsOnCooldown
+    ) => reactions.Where(reaction => !textsOnCooldown.Contains(reaction.Text)).ToArray();
 
     public LineReactionComponent GetDominantComponent(LineReactionComponent[] reactionComponents)
     {

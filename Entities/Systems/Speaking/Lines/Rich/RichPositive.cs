@@ -31,5 +31,105 @@ public static class RichPositive
                 },
             ]
         },
+        {
+            Tags.Calm,
+            [
+                new ReactionLine()
+                {
+                    Cooldown = Constants.DEFAULT_COOLDOWN,
+                    Text = "Знаешь, я ищу надежного",
+                    NextLines =
+                    [
+                        new Line()
+                        {
+                            Text = "Как швейчарский банк?",
+                            Tags = [Tags.Rich, Tags.Funny],
+                            TTL = 1,
+                        },
+                        new Line()
+                        {
+                            Text = "Взломай — узнаешь",
+                            Tags = [Tags.Harsh, Tags.Funny],
+                            TTL = 1,
+                        },
+                    ],
+                },
+            ]
+        },
+        {
+            Tags.Harsh,
+            [
+                new ReactionLine()
+                {
+                    Cooldown = Constants.DEFAULT_COOLDOWN,
+                    Text = "Люблю дерзких",
+                    NextLines =
+                    [
+                        new Line()
+                        {
+                            Text = "Покатать на БМВ?",
+                            Tags = [Tags.Rich, Tags.Harsh],
+                            TTL = 1,
+                        },
+                        new Line()
+                        {
+                            Text = "Сначала свидание",
+                            Tags = [Tags.Romantic, Tags.Romantic],
+                            TTL = 1,
+                        },
+                    ],
+                },
+            ]
+        },
+        {
+            Tags.Smart,
+            [
+                new ReactionLine()
+                {
+                    Cooldown = Constants.DEFAULT_COOLDOWN,
+                    Text = "Учился в Оксфорде?",
+                    NextLines =
+                    [
+                        new Line()
+                        {
+                            Text = "Вложил все в интеллект",
+                            Tags = [Tags.Smart, Tags.Rich],
+                            TTL = 1,
+                        },
+                        new Line()
+                        {
+                            Text = "Поумнее твоих бывших, да?",
+                            Tags = [Tags.Harsh, Tags.Harsh, Tags.Funny],
+                            TTL = 1,
+                        },
+                    ],
+                },
+            ]
+        },
+        {
+            Tags.Funny,
+            [
+                new ReactionLine()
+                {
+                    Cooldown = Constants.DEFAULT_COOLDOWN,
+                    Text = "Смешной. Будешь моим Нетфликсом?",
+                    NextLines =
+                    [
+                        new Line()
+                        {
+                            Text = "Только по вечерам",
+                            Tags = [Tags.Funny, Tags.Romantic],
+                            TTL = 1,
+                        },
+                        new Line()
+                        {
+                            Text = "Юмор бесплатный, остальное - нет",
+                            Tags = [Tags.Funny, Tags.Funny, Tags.Harsh],
+                            TTL = 1,
+                        },
+                    ],
+                },
+            ]
+        },
     };
 }
