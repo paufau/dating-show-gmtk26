@@ -73,7 +73,7 @@ public class SimpathyManager
 
     private static int GetTagAffinity(Tag[] girlTags, Tag tag)
     {
-        if (LinesRepository.TagToPair.TryGetValue(tag, out var opposite))
+        if (LinesRepository.TryGetOppositeTag(tag, out var opposite))
         {
             return CountTag(girlTags, tag) - CountTag(girlTags, opposite);
         }

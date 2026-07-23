@@ -62,19 +62,25 @@ public class LinesRepository
         (Tags.Smart, Tags.Funny),
     ];
 
-    public static Dictionary<Tag, Tag> TagToPair = BuildTagToPair();
-
-    private static Dictionary<Tag, Tag> BuildTagToPair()
+    public static bool TryGetOppositeTag(Tag tag, out Tag opposite)
     {
-        var tagToPair = new Dictionary<Tag, Tag>();
-
         foreach (var (first, second) in TagPairs)
         {
-            tagToPair[first] = second;
-            tagToPair[second] = first;
+            if (first.Key == tag.Key)
+            {
+                opposite = second;
+                return true;
+            }
+
+            if (second.Key == tag.Key)
+            {
+                opposite = first;
+                return true;
+            }
         }
 
-        return tagToPair;
+        opposite = default;
+        return false;
     }
 
     public static Dictionary<Tag, ReactionLine[]> RichLines = new()

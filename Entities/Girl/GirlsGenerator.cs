@@ -33,7 +33,7 @@ public class GirlsGenerator
             var tag = availableTags.PickRandom();
             tags.Add(tag);
 
-            if (LinesRepository.TagToPair.TryGetValue(tag, out var opposite))
+            if (LinesRepository.TryGetOppositeTag(tag, out var opposite))
             {
                 availableTags.Remove(opposite);
             }
@@ -62,7 +62,7 @@ public class GirlsGenerator
 
             freeTags.Remove(freeTag);
 
-            if (LinesRepository.TagToPair.TryGetValue(freeTag, out var opposite))
+            if (LinesRepository.TryGetOppositeTag(freeTag, out var opposite))
             {
                 freeTags.Remove(opposite);
             }
@@ -89,5 +89,5 @@ public class GirlsGenerator
     private static int CountGroups(List<Tag> tags) => tags.Distinct().Count();
 
     private static bool IsOppositeOfAny(Tag tag, List<Tag> tags) =>
-        LinesRepository.TagToPair.TryGetValue(tag, out var opposite) && tags.Contains(opposite);
+        LinesRepository.TryGetOppositeTag(tag, out var opposite) && tags.Contains(opposite);
 }
