@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Game;
 using Godot;
 using Utils;
@@ -6,30 +7,50 @@ using Utils;
 public partial class Main : Control
 {
     [Export]
-    public Girl[]? Girls;
+    public PackedScene? LineOptionScene;
 
     [Export]
-    public PackedScene? LineOptionScene;
+    public PackedScene? GirlScene;
 
     [Export]
     public Node? OptionsContainer;
 
-    private readonly List<Line> _availableLines = new();
-    private readonly Dictionary<Girl, int> _reactionCooldowns = new();
+    [Export]
+    public Node? GirlsContainer;
+
+    private readonly List<Line> _AvailableLines = new();
+    private readonly List<Girl> _Girls = new();
+    private readonly Dictionary<Girl, int> _ReactionCooldowns = new();
 
     public override void _Ready()
     {
-        var girls = Assert.NonNull(Girls);
-        var lineOptionScene = Assert.NonNull(LineOptionScene);
-        var optionsContainer = Assert.NonNull(OptionsContainer);
-
+        SpawnGirls();
         ShowInitialPhrases();
+    }
+
+    private void SpawnGirls()
+    {
+        var girlScene = Assert.NonNull(GirlScene);
+        var girlsContainer = Assert.NonNull(GirlsContainer);
+
+        ClearChildren(girlsContainer);
+        _Girls.Clear();
+        _ReactionCooldowns.Clear();
+
+        foreach (var girlData in new GirlsGenerator().Generate())
+        {
+            var girlNode = girlScene.Instantiate<Girl>();
+            GD.Print(string.Join(", ", girlData.CharacterTags.Select(t => t.Key)));
+            girlNode.Setup(girlData);
+            girlsContainer.AddChild(girlNode);
+            _Girls.Add(girlNode);
+        }
     }
 
     private void ShowInitialPhrases()
     {
-        _availableLines.Clear();
-        _availableLines.AddRange(LinesRepository.InitialLines);
+        _AvailableLines.Clear();
+        _AvailableLines.AddRange(LinesRepository.InitialLines);
 
         RenderOptions();
     }
@@ -45,36 +66,31 @@ public partial class Main : Control
     {
         var excludeTags = pressedLine.ExcludeTags ?? [];
 
-        for (var i = _availableLines.Count - 1; i >= 0; i--)
+        for (var i = _AvailableLines.Count - 1; i >= 0; i--)
         {
-            var line = _availableLines[i];
-
-            if (line.Text == pressedLine.Text || HasAnyTag(line, excludeTags))
-            {
-                _availableLines.RemoveAt(i);
-                continue;
-            }
-
+            var line = _AvailableLines[i];
             line.TTL -= 1;
-            if (line.TTL <= 0)
+
+            var isSpent =
+                line.Text == pressedLine.Text || HasAnyTag(line, excludeTags) || line.TTL <= 0;
+
+            if (isSpent)
             {
-                _availableLines.RemoveAt(i);
+                _AvailableLines.RemoveAt(i);
                 continue;
             }
 
-            _availableLines[i] = line;
+            _AvailableLines[i] = line;
         }
     }
 
     private void UpdateGirlsReactions(Line pressedLine)
     {
-        var girls = Assert.NonNull(Girls);
-
-        foreach (var girl in girls)
+        foreach (var girl in _Girls)
         {
-            if (_reactionCooldowns.TryGetValue(girl, out var cooldown) && cooldown > 0)
+            if (_ReactionCooldowns.TryGetValue(girl, out var cooldown) && cooldown > 0)
             {
-                _reactionCooldowns[girl] = cooldown - 1;
+                _ReactionCooldowns[girl] = cooldown - 1;
                 continue;
             }
 
@@ -85,7 +101,7 @@ public partial class Main : Control
             }
 
             girl.SetSpeech(reaction.Text);
-            _reactionCooldowns[girl] = reaction.Cooldown;
+            _ReactionCooldowns[girl] = reaction.Cooldown;
             AddLines(reaction.NextLines);
         }
     }
@@ -94,7 +110,7 @@ public partial class Main : Control
     {
         reaction = default;
 
-        foreach (var characterTag in girl.Character)
+        foreach (var characterTag in girl.Data.CharacterTags)
         {
             if (!HasTag(pressedLine, characterTag))
             {
@@ -109,7 +125,7 @@ public partial class Main : Control
                 continue;
             }
 
-            reaction = reactions[GD.Randi() % (uint)reactions.Length];
+            reaction = reactions.PickRandom();
             return true;
         }
 
@@ -126,12 +142,10 @@ public partial class Main : Control
 
         foreach (var line in lines)
         {
-            if (_availableLines.Exists(available => available.Text == line.Text))
+            if (!_AvailableLines.Any(available => available.Text == line.Text))
             {
-                continue;
+                _AvailableLines.Add(line);
             }
-
-            _availableLines.Add(line);
         }
     }
 
@@ -140,13 +154,9 @@ public partial class Main : Control
         var lineOptionScene = Assert.NonNull(LineOptionScene);
         var optionsContainer = Assert.NonNull(OptionsContainer);
 
-        foreach (var child in optionsContainer.GetChildren())
-        {
-            optionsContainer.RemoveChild(child);
-            child.QueueFree();
-        }
+        ClearChildren(optionsContainer);
 
-        foreach (var line in _availableLines)
+        foreach (var line in _AvailableLines)
         {
             var lineOptionNode = lineOptionScene.Instantiate<LineOption>();
             lineOptionNode.Setup(line);
@@ -155,34 +165,17 @@ public partial class Main : Control
         }
     }
 
-    private static bool HasTag(Line line, Tag tag)
+    private static void ClearChildren(Node container)
     {
-        if (line.Tags == null)
+        foreach (var child in container.GetChildren())
         {
-            return false;
+            container.RemoveChild(child);
+            child.QueueFree();
         }
-
-        foreach (var lineTag in line.Tags)
-        {
-            if (lineTag.Key == tag.Key)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
-    private static bool HasAnyTag(Line line, Tag[] tags)
-    {
-        foreach (var tag in tags)
-        {
-            if (HasTag(line, tag))
-            {
-                return true;
-            }
-        }
+    private static bool HasTag(Line line, Tag tag) =>
+        line.Tags?.Any(lineTag => lineTag.Key == tag.Key) ?? false;
 
-        return false;
-    }
+    private static bool HasAnyTag(Line line, Tag[] tags) => tags.Any(tag => HasTag(line, tag));
 }

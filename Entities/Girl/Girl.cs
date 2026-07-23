@@ -1,4 +1,3 @@
-using System;
 using Game;
 using Godot;
 using Utils;
@@ -8,7 +7,12 @@ public partial class Girl : Control
     [Export]
     public Label? SpeechLabel;
 
-    public Tag[] Character = [Tags.Rich];
+    public GirlData Data = new();
+
+    public void Setup(GirlData data)
+    {
+        Data = data;
+    }
 
     public void SetSpeech(string speech)
     {

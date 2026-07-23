@@ -43,15 +43,38 @@ public static class Tags
 
 public class LinesRepository
 {
-    public static Dictionary<Tag, Tag> TagToPair = new()
+    public static Tag[] CommonTags =
+    [
+        Tags.Rich,
+        Tags.Romantic,
+        Tags.Calm,
+        Tags.Harsh,
+        Tags.Smart,
+        Tags.Funny,
+    ];
+
+    // Opposite characteristics. A girl only ever takes one side of a pair.
+    public static (Tag First, Tag Second)[] TagPairs =
+    [
+        (Tags.Rich, Tags.Romantic),
+        (Tags.Calm, Tags.Harsh),
+        (Tags.Smart, Tags.Funny),
+    ];
+
+    public static Dictionary<Tag, Tag> TagToPair = BuildTagToPair();
+
+    private static Dictionary<Tag, Tag> BuildTagToPair()
     {
-        { Tags.Rich, Tags.Romantic },
-        { Tags.Romantic, Tags.Rich },
-        { Tags.Calm, Tags.Harsh },
-        { Tags.Harsh, Tags.Calm },
-        { Tags.Smart, Tags.Funny },
-        { Tags.Funny, Tags.Smart },
-    };
+        var tagToPair = new Dictionary<Tag, Tag>();
+
+        foreach (var (first, second) in TagPairs)
+        {
+            tagToPair[first] = second;
+            tagToPair[second] = first;
+        }
+
+        return tagToPair;
+    }
 
     public static ReactionLine[] RichLines = new ReactionLine[]
     {
