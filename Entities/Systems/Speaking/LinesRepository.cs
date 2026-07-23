@@ -25,6 +25,7 @@ public struct ReactionLine
 public static class Constants
 {
     public static int DEFAULT_COOLDOWN = 5;
+    public static int FALLBACK_COOLDOWN = 1;
 }
 
 public static class Tags
@@ -76,34 +77,61 @@ public class LinesRepository
         return tagToPair;
     }
 
-    public static ReactionLine[] RichLines = new ReactionLine[]
+    public static Dictionary<Tag, ReactionLine[]> RichLines = new()
     {
-        new ReactionLine()
         {
-            Cooldown = Constants.DEFAULT_COOLDOWN,
-            Text = "Ммм, неплохо. У тебя свой бизнес?",
-            NextLines =
+            Tags.Rich,
             [
-                new Line()
+                new ReactionLine()
                 {
-                    Text = "Я криптоинвестор",
-                    Tags = [Tags.Rich, Tags.Smart],
-                    TTL = 1,
+                    Cooldown = Constants.DEFAULT_COOLDOWN,
+                    Text = "Ммм, неплохо. У тебя свой бизнес?",
+                    NextLines =
+                    [
+                        new Line()
+                        {
+                            Text = "Я криптоинвестор",
+                            Tags = [Tags.Rich, Tags.Smart],
+                            TTL = 1,
+                        },
+                        new Line()
+                        {
+                            Text = "Наследство от бабули",
+                            Tags = [Tags.Romantic, Tags.Funny],
+                            TTL = 1,
+                        },
+                    ],
                 },
-                new Line()
-                {
-                    Text = "Наследство от бабули",
-                    Tags = [Tags.Romantic, Tags.Funny],
-                    TTL = 1,
-                },
-            ],
+            ]
         },
     };
 
-    public static Dictionary<Tag, ReactionLine[]> ReactionLines = new()
+    public static Dictionary<Tag, Dictionary<Tag, ReactionLine[]>> ReactionLines = new()
     {
         { Tags.Rich, RichLines },
     };
+
+    public static ReactionLine[] DefaultReactions =
+    [
+        new ReactionLine()
+        {
+            Cooldown = Constants.FALLBACK_COOLDOWN,
+            Text = "Ага...",
+            NextLines = [],
+        },
+        new ReactionLine()
+        {
+            Cooldown = Constants.FALLBACK_COOLDOWN,
+            Text = "Ну ладно...",
+            NextLines = [],
+        },
+        new ReactionLine()
+        {
+            Cooldown = Constants.FALLBACK_COOLDOWN,
+            Text = "Скучно...",
+            NextLines = [],
+        },
+    ];
 
     public static Line[] InitialLines =
     [

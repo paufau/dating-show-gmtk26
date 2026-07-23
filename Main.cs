@@ -21,6 +21,7 @@ public partial class Main : Control
     private readonly List<Line> _AvailableLines = new();
     private readonly List<Girl> _Girls = new();
     private readonly Dictionary<Girl, int> _ReactionCooldowns = new();
+    private readonly SimpathyManager _SimpathyManager = new();
 
     public override void _Ready()
     {
@@ -88,49 +89,21 @@ public partial class Main : Control
     {
         foreach (var girl in _Girls)
         {
+            var reactionComponents = _SimpathyManager.ComputeGirlReaction(girl.Data, pressedLine);
+            _SimpathyManager.UpdateSimpathy(girl.Data, reactionComponents);
+
             if (_ReactionCooldowns.TryGetValue(girl, out var cooldown) && cooldown > 0)
             {
                 _ReactionCooldowns[girl] = cooldown - 1;
                 continue;
             }
 
-            if (!TryPickReaction(girl, pressedLine, out var reaction))
-            {
-                GD.PrintErr("No reactions found", pressedLine.Text);
-                continue;
-            }
+            var reaction = _SimpathyManager.GetReaction(girl.Data, reactionComponents);
 
             girl.SetSpeech(reaction.Text);
             _ReactionCooldowns[girl] = reaction.Cooldown;
             AddLines(reaction.NextLines);
         }
-    }
-
-    private static bool TryPickReaction(Girl girl, Line pressedLine, out ReactionLine reaction)
-    {
-        reaction = default;
-
-        foreach (var characterTag in girl.Data.CharacterTags)
-        {
-            if (!HasTag(pressedLine, characterTag))
-            {
-                continue;
-            }
-
-            if (
-                !LinesRepository.ReactionLines.TryGetValue(characterTag, out var reactions)
-                || reactions.Length == 0
-            )
-            {
-                continue;
-            }
-
-            reaction = reactions.PickRandom();
-            return true;
-        }
-
-        // TODO: react negatively when the line is from TagToPair, but maybe not needed
-        return false;
     }
 
     private void AddLines(Line[]? lines)

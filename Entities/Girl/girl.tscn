@@ -2,12 +2,18 @@
 
 [ext_resource type="Script" uid="uid://gaadvyq87fgq" path="res://Entities/Girl/Girl.cs" id="1_re1c2"]
 
-[node name="Girl" type="Container" unique_id=1698092937 node_paths=PackedStringArray("SpeechLabel")]
-custom_minimum_size = Vector2(0, 63.19)
+[node name="Girl" type="VBoxContainer" unique_id=571234150 node_paths=PackedStringArray("SpeechLabel", "SimpathyBar")]
+custom_minimum_size = Vector2(0, 92.93)
+offset_right = 120.0
+offset_bottom = 98.0
 script = ExtResource("1_re1c2")
 SpeechLabel = NodePath("Label")
+SimpathyBar = NodePath("ProgressBar")
 
 [node name="Label" type="Label" parent="." unique_id=1150066830]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Hello"
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1796475039]
+layout_mode = 2
