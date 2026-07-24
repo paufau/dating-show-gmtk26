@@ -1,3 +1,3 @@
 using Godot;
 
-public partial class BodyPart : Node { }
+public partial class BodyPart : Sprite2D { }

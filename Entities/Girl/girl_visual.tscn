@@ -61,21 +61,6 @@ NosePartNode = NodePath("Nose")
 MounthPartNode = NodePath("Mounth")
 GlassesPartNode = NodePath("Glasses")
 
-[node name="Body" type="Sprite2D" parent="." unique_id=644472139]
-position = Vector2(17, 719)
-texture = ExtResource("2_yaepv")
-script = ExtResource("3_ed4mu")
-
-[node name="Neck" type="Sprite2D" parent="." unique_id=785964391]
-position = Vector2(25, 379)
-texture = ExtResource("6_ndcr0")
-script = ExtResource("7_wqt5b")
-TypeToTexture = Dictionary[int, Texture2D]({
-0: ExtResource("6_ndcr0"),
-1: ExtResource("8_honvk"),
-2: ExtResource("9_1v3a4")
-})
-
 [node name="HeadDown" type="Sprite2D" parent="." unique_id=24967742]
 position = Vector2(2, 304)
 texture = ExtResource("8_hmv6r")
@@ -90,6 +75,21 @@ TypeToTexture = Dictionary[int, Texture2D]({
 6: ExtResource("15_snvtl"),
 7: ExtResource("16_ois14"),
 8: ExtResource("17_obfm3")
+})
+
+[node name="Body" type="Sprite2D" parent="." unique_id=644472139]
+position = Vector2(17, 719)
+texture = ExtResource("2_yaepv")
+script = ExtResource("3_ed4mu")
+
+[node name="Neck" type="Sprite2D" parent="." unique_id=785964391]
+position = Vector2(25, 379)
+texture = ExtResource("6_ndcr0")
+script = ExtResource("7_wqt5b")
+TypeToTexture = Dictionary[int, Texture2D]({
+0: ExtResource("6_ndcr0"),
+1: ExtResource("8_honvk"),
+2: ExtResource("9_1v3a4")
 })
 
 [node name="Head" type="Sprite2D" parent="." unique_id=1133502435]
