@@ -18,7 +18,7 @@ public partial class Main : Control
     [Export]
     public Node? GirlsContainer;
 
-    private readonly List<Line> _AvailableLines = new();
+    private readonly List<ActiveLine> _ActiveLines = new();
     private readonly List<Girl> _Girls = new();
     private readonly Dictionary<Girl, Dictionary<string, int>> _ReactionCooldowns = new();
     private readonly SimpathyManager _SimpathyManager = new();
@@ -37,6 +37,7 @@ public partial class Main : Control
         ClearChildren(girlsContainer);
         _Girls.Clear();
         _ReactionCooldowns.Clear();
+        _ActiveLines.Clear();
 
         foreach (var girlData in new GirlsGenerator().Generate())
         {
@@ -50,8 +51,8 @@ public partial class Main : Control
 
     private void ShowInitialPhrases()
     {
-        _AvailableLines.Clear();
-        _AvailableLines.AddRange(LinesRepository.InitialLines);
+        _ActiveLines.Clear();
+        AddLines(LinesRepository.InitialLines);
 
         RenderOptions();
     }
@@ -68,21 +69,20 @@ public partial class Main : Control
     {
         var excludeTags = pressedLine.ExcludeTags ?? [];
 
-        for (var i = _AvailableLines.Count - 1; i >= 0; i--)
+        for (var i = _ActiveLines.Count - 1; i >= 0; i--)
         {
-            var line = _AvailableLines[i];
-            line.TTL -= 1;
+            var activeLine = _ActiveLines[i];
+            activeLine.Line.TTL -= 1;
 
             var isSpent =
-                line.Text == pressedLine.Text || HasAnyTag(line, excludeTags) || line.TTL <= 0;
+                activeLine.Line.Text == pressedLine.Text
+                || HasAnyTag(activeLine.Line, excludeTags)
+                || activeLine.Line.TTL <= 0;
 
             if (isSpent)
             {
-                _AvailableLines.RemoveAt(i);
-                continue;
+                _ActiveLines.RemoveAt(i);
             }
-
-            _AvailableLines[i] = line;
         }
     }
 
@@ -104,7 +104,7 @@ public partial class Main : Control
             cooldowns[reaction.Text] = reaction.Cooldown;
 
             girl.SetSpeech(reaction.Text);
-            AddLines(reaction.NextLines);
+            AddLines(reaction.NextLines, girl);
         }
     }
 
@@ -136,7 +136,7 @@ public partial class Main : Control
 
     private void RefillLinesIfEmpty(Line pressedLine)
     {
-        if (_AvailableLines.Count > 0)
+        if (_ActiveLines.Count > 0)
         {
             return;
         }
@@ -149,7 +149,7 @@ public partial class Main : Control
         AddLines(fallbackLines);
     }
 
-    private void AddLines(Line[]? lines)
+    private void AddLines(Line[]? lines, Girl? source = null)
     {
         if (lines == null)
         {
@@ -158,9 +158,17 @@ public partial class Main : Control
 
         foreach (var line in lines)
         {
-            if (!_AvailableLines.Any(available => available.Text == line.Text))
+            var activeLine = _ActiveLines.FirstOrDefault(active => active.Line.Text == line.Text);
+
+            if (activeLine == null)
             {
-                _AvailableLines.Add(line);
+                activeLine = new ActiveLine { Line = line };
+                _ActiveLines.Add(activeLine);
+            }
+
+            if (source != null && !activeLine.Sources.Contains(source))
+            {
+                activeLine.Sources.Add(source);
             }
         }
     }
@@ -172,10 +180,10 @@ public partial class Main : Control
 
         ClearChildren(optionsContainer);
 
-        foreach (var line in _AvailableLines)
+        foreach (var activeLine in _ActiveLines)
         {
             var lineOptionNode = lineOptionScene.Instantiate<LineOption>();
-            lineOptionNode.Setup(line);
+            lineOptionNode.Setup(activeLine.Line);
             lineOptionNode.OnPress += HandleLinePress;
             optionsContainer.AddChild(lineOptionNode);
         }
