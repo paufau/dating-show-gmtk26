@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6n6i3ux24rm6"]
+[gd_scene format=3 uid="uid://c6n6i3ux24rm6"]
 
 [ext_resource type="Script" uid="uid://dnj0ujrdkljg7" path="res://Entities/Systems/Speaking/LineOption.cs" id="1_lineoption"]
 

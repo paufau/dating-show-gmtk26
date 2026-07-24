@@ -37,7 +37,7 @@ public static class SmartNegative
                     [
                         new Line()
                         {
-                            Text = "Ну зачем таг грубо?",
+                            Text = "Ну зачем так грубо?",
                             Tags = [Tags.Funny, Tags.Funny],
                             TTL = 1,
                         },

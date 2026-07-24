@@ -42,7 +42,7 @@ public static class RichPositive
                     [
                         new Line()
                         {
-                            Text = "Как швейчарский банк?",
+                            Text = "Как швейцарский банк?",
                             Tags = [Tags.Rich, Tags.Funny],
                             TTL = 1,
                         },

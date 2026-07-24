@@ -121,14 +121,14 @@ public class LinesRepository
             Text = "Я на BMW приехал",
             Tags = [Tags.Rich, Tags.Calm],
             ExcludeTags = [Tags.Hello],
-            TTL = 3,
+            TTL = 1,
         },
         new Line()
         {
             Text = "Ненавижу эти шоу",
             Tags = [Tags.Harsh],
             ExcludeTags = [Tags.Hello],
-            TTL = 3,
+            TTL = 1,
         },
     ];
 }
