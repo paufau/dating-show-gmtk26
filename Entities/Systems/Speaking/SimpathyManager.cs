@@ -15,9 +15,9 @@ public class SimpathyManager
     private static readonly int MIN_SIMPATHY = 0;
     private static readonly int MAX_SIMPATHY = 100;
 
-    public LineReactionComponent[] ComputeGirlReaction(GirlData girl, Line line)
+    public LineReactionComponent[] ComputeGirlReaction(GirlData girl, Tag[] tags)
     {
-        var lineTags = line.Tags ?? [];
+        var lineTags = tags ?? [];
 
         var components = lineTags
             .Distinct()
@@ -41,7 +41,7 @@ public class SimpathyManager
         return components;
     }
 
-    public ReactionLine GetReaction(
+    public ReactionLine LEGACY_GetReaction(
         GirlData girl,
         LineReactionComponent[] reactionComponents,
         IReadOnlyCollection<string> textsOnCooldown
@@ -84,7 +84,7 @@ public class SimpathyManager
     {
         if (
             valenceComponents.Length > 0
-            && reactionLines.TryGetValue(GetDominantTag(girl), out var girlReactions)
+            && reactionLines.TryGetValue(girl.GetDominantTag(), out var girlReactions)
             && girlReactions.TryGetValue(
                 GetDominantComponent(valenceComponents).Tag,
                 out var reactions
@@ -130,13 +130,6 @@ public class SimpathyManager
         var simpathyChange = reactionComponents.Sum(component => component.Power);
         girl.Simpathy = Math.Clamp(girl.Simpathy + simpathyChange, MIN_SIMPATHY, MAX_SIMPATHY);
     }
-
-    private static Tag GetDominantTag(GirlData girl) =>
-        girl
-            .CharacterTags.GroupBy(tag => tag)
-            .OrderByDescending(group => group.Count())
-            .First()
-            .Key;
 
     private static int GetTagAffinity(Tag[] girlTags, Tag tag)
     {

@@ -17,7 +17,7 @@ public partial class Girl : Control
         Data = data;
     }
 
-    public void SetSpeech(string speech)
+    public void LEGACY_SetSpeech(string speech)
     {
         var speechLabel = Assert.NonNull(SpeechLabel);
         speechLabel.Text = speech;

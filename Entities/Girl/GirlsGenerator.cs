@@ -26,11 +26,7 @@ public class GirlsGenerator
 
     private static void SpreadMainTag(GirlData[] girls)
     {
-        var mainTag = girls[0]
-            .CharacterTags.GroupBy(tag => tag)
-            .OrderByDescending(group => group.Count())
-            .First()
-            .Key;
+        var mainTag = girls[0].GetDominantTag();
 
         PromoteToSecond(girls[1].CharacterTags, mainTag);
 

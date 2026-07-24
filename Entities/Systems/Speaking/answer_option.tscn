@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c6n6i3ux24rm6"]
+
+[ext_resource type="Script" uid="uid://dnj0ujrdkljg7" path="res://Entities/Systems/Speaking/AnswerOption.cs" id="1_answeroption"]
+
+[node name="AnswerOption" type="Button" unique_id=261575814]
+theme_override_font_sizes/font_size = 32
+text = "Variant"
+script = ExtResource("1_answeroption")
