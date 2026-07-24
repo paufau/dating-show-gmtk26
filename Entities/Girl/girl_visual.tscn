@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bwtjscpv8um2w"]
+
+[ext_resource type="Script" uid="uid://x8awktgjsakt" path="res://Entities/Girl/GirlVisual.cs" id="1_v35fr"]
+[ext_resource type="Script" uid="uid://dfim167gab81k" path="res://Entities/Girl/Parts/Head/HeadPart.cs" id="2_ntf3q"]
+[ext_resource type="Texture2D" uid="uid://by05072d1mco5" path="res://Entities/Girl/Parts/Head/medium.svg" id="3_ntf3q"]
+[ext_resource type="Texture2D" uid="uid://okrpaockywu7" path="res://Entities/Girl/Parts/Head/dark.svg" id="4_b7fk2"]
+[ext_resource type="Texture2D" uid="uid://dk6a5uxsx5mty" path="res://Entities/Girl/Parts/Head/light.svg" id="5_hxrq4"]
+
+[node name="GirlVisual" type="Node2D" unique_id=630467479 node_paths=PackedStringArray("HeatPartNode")]
+script = ExtResource("1_v35fr")
+UseHeadType = 1
+HeatPartNode = NodePath("Head")
+
+[node name="Head" type="Sprite2D" parent="." unique_id=1133502435]
+texture = ExtResource("3_ntf3q")
+script = ExtResource("2_ntf3q")
+TypeToTexture = Dictionary[int, Texture2D]({
+0: ExtResource("3_ntf3q"),
+1: ExtResource("4_b7fk2"),
+2: ExtResource("5_hxrq4")
+})

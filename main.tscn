@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ctbay41wkvmy6" path="res://Main.cs" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://c6n6i3ux24rm6" path="res://Entities/Systems/Speaking/line_option.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dulitgk76akux" path="res://Entities/Girl/girl.tscn" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://bwtjscpv8um2w" path="res://Entities/Girl/girl_visual.tscn" id="4_1bvp3"]
 
 [node name="Main" type="Control" unique_id=2079404802 node_paths=PackedStringArray("OptionsContainer", "GirlsContainer")]
 layout_mode = 3
@@ -37,3 +38,6 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 121.0
 grow_vertical = 2
+
+[node name="GirlVisual" parent="." unique_id=630467479 instance=ExtResource("4_1bvp3")]
+position = Vector2(931, 328)
