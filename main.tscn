@@ -4,42 +4,65 @@
 [ext_resource type="PackedScene" uid="uid://c6n6i3ux24rm6" path="res://Entities/Systems/Speaking/line_option.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dulitgk76akux" path="res://Entities/Girl/girl.tscn" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bwtjscpv8um2w" path="res://Entities/Girl/girl_visual.tscn" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://c1p5hos51trdd" path="res://Entities/Systems/CountDown/CountDownTimerSystem.cs" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://dog2y7wwv4se3" path="res://Entities/Systems/CountDown/RoundDurationController.cs" id="6_7mycd"]
 
-[node name="Main" type="Control" unique_id=2079404802 node_paths=PackedStringArray("OptionsContainer", "GirlsContainer")]
+[node name="Main" type="Node" unique_id=1974185631 node_paths=PackedStringArray("CountDownTimerSystem", "OptionsContainer", "GirlsContainer")]
+script = ExtResource("1_ig7tw")
+CountDownTimerSystem = NodePath("Systems/CountDownTimerSystem")
+LineOptionScene = ExtResource("2_h2yge")
+GirlScene = ExtResource("3_1bvp3")
+OptionsContainer = NodePath("UI/ResponseContainer")
+GirlsContainer = NodePath("UI/GirlsContainer")
+
+[node name="Systems" type="Node" parent="." unique_id=950045042]
+
+[node name="CountDownTimerSystem" type="Node" parent="Systems" unique_id=1193167037]
+script = ExtResource("4_lquwl")
+
+[node name="GirlVisual" parent="." unique_id=630467479 instance=ExtResource("4_1bvp3")]
+position = Vector2(1558, 290)
+
+[node name="UI" type="Control" parent="." unique_id=1254692654]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_ig7tw")
-LineOptionScene = ExtResource("2_h2yge")
-GirlScene = ExtResource("3_1bvp3")
-OptionsContainer = NodePath("ResponseContainer")
-GirlsContainer = NodePath("VBoxContainer2")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=987260325]
+[node name="ProgressBar" type="ProgressBar" parent="UI" unique_id=1613590938]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 74.0
+grow_horizontal = 2
+
+[node name="RoundDurationController" type="Node" parent="UI/ProgressBar" unique_id=733354706 node_paths=PackedStringArray("System", "Progress")]
+script = ExtResource("6_7mycd")
+System = NodePath("../../../Systems/CountDownTimerSystem")
+Progress = NodePath("..")
+
+[node name="GirlsContainer" type="VBoxContainer" parent="UI" unique_id=987260325]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_right = 121.0
+offset_right = 500.0
 grow_vertical = 2
 
-[node name="GirlVisual" parent="." unique_id=630467479 instance=ExtResource("4_1bvp3")]
-position = Vector2(1558, 290)
-
-[node name="ResponseContainer" type="HBoxContainer" parent="." unique_id=570706407]
+[node name="ResponseContainer" type="HBoxContainer" parent="UI" unique_id=570706407]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -258.0
+offset_top = -238.0
+offset_bottom = -76.0
 grow_horizontal = 2
 grow_vertical = 0
 alignment = 2
 
-[node name="LineOption" parent="ResponseContainer" unique_id=261575814 instance=ExtResource("2_h2yge")]
+[node name="LineOption" parent="UI/ResponseContainer" unique_id=261575814 instance=ExtResource("2_h2yge")]
 layout_mode = 2

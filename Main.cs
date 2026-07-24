@@ -4,8 +4,11 @@ using Game;
 using Godot;
 using Utils;
 
-public partial class Main : Control
+public partial class Main : Node
 {
+    [Export]
+    public CountDownTimerSystem? CountDownTimerSystem;
+
     [Export]
     public PackedScene? LineOptionScene;
 
@@ -27,6 +30,9 @@ public partial class Main : Control
     {
         SpawnGirls();
         ShowInitialPhrases();
+
+        var countDownTimerSystem = Assert.NonNull(CountDownTimerSystem);
+        countDownTimerSystem.Start();
     }
 
     private void SpawnGirls()
