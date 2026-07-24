@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://okrpaockywu7"
-path="res://.godot/imported/dark.svg-114c173db2ea69f8bdb1029ccca2382b.ctex"
+uid="uid://bl27pfuku0gq0"
+path="res://.godot/imported/Property 1=surprise.png-2fa1cf09b54ba1b1c00298b9efc79515.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Girl/Parts/Head/dark.svg"
-dest_files=["res://.godot/imported/dark.svg-114c173db2ea69f8bdb1029ccca2382b.ctex"]
+source_file="res://Entities/Girl/Parts/Glasses/Property 1=surprise.png"
+dest_files=["res://.godot/imported/Property 1=surprise.png-2fa1cf09b54ba1b1c00298b9efc79515.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

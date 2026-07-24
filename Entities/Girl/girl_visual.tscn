@@ -2,20 +2,143 @@
 
 [ext_resource type="Script" uid="uid://x8awktgjsakt" path="res://Entities/Girl/GirlVisual.cs" id="1_v35fr"]
 [ext_resource type="Script" uid="uid://dfim167gab81k" path="res://Entities/Girl/Parts/Head/HeadPart.cs" id="2_ntf3q"]
-[ext_resource type="Texture2D" uid="uid://by05072d1mco5" path="res://Entities/Girl/Parts/Head/medium.svg" id="3_ntf3q"]
-[ext_resource type="Texture2D" uid="uid://okrpaockywu7" path="res://Entities/Girl/Parts/Head/dark.svg" id="4_b7fk2"]
-[ext_resource type="Texture2D" uid="uid://dk6a5uxsx5mty" path="res://Entities/Girl/Parts/Head/light.svg" id="5_hxrq4"]
+[ext_resource type="Texture2D" uid="uid://ilbirt7cge1v" path="res://Entities/Girl/Parts/Head/Property 1=medium.png" id="2_uy60k"]
+[ext_resource type="Texture2D" uid="uid://b0y26xla5etb7" path="res://Entities/Girl/Parts/Body/body.png" id="2_yaepv"]
+[ext_resource type="Script" uid="uid://diaqdpsnnaex5" path="res://Entities/Girl/Parts/Body/BodyPart.cs" id="3_ed4mu"]
+[ext_resource type="Texture2D" uid="uid://bdr2guiw5n4ov" path="res://Entities/Girl/Parts/Head/Property 1=dark.png" id="4_jrjl3"]
+[ext_resource type="Texture2D" uid="uid://bma1ptcpcgpsm" path="res://Entities/Girl/Parts/Head/Property 1=light.png" id="5_81h8x"]
+[ext_resource type="Texture2D" uid="uid://danhe4p35d2v3" path="res://Entities/Girl/Parts/Neck/Property 1=medium-2.png" id="6_ndcr0"]
+[ext_resource type="Script" uid="uid://kfndbt4rdwn0" path="res://Entities/Girl/Parts/Neck/NeckPart.cs" id="7_wqt5b"]
+[ext_resource type="Texture2D" uid="uid://b4aa4f86blf10" path="res://Entities/Girl/Parts/HeadDown/type=braids, lenght=long.png" id="8_hmv6r"]
+[ext_resource type="Texture2D" uid="uid://dtl8ptlh43qw0" path="res://Entities/Girl/Parts/Neck/Property 1=dark-2.png" id="8_honvk"]
+[ext_resource type="Texture2D" uid="uid://dsm6m045nh3n6" path="res://Entities/Girl/Parts/Neck/Property 1=light-2.png" id="9_1v3a4"]
+[ext_resource type="Script" uid="uid://s1fmnvely0vg" path="res://Entities/Girl/Parts/HeadDown/HeadDownPart.cs" id="9_002tv"]
+[ext_resource type="Texture2D" uid="uid://dx3s213nd70ig" path="res://Entities/Girl/Parts/HeadDown/type=braids, lenght=medium.png" id="10_fwjrf"]
+[ext_resource type="Texture2D" uid="uid://bj13ywrje4640" path="res://Entities/Girl/Parts/HeadDown/type=braids, lenght=short.png" id="11_qvr62"]
+[ext_resource type="Texture2D" uid="uid://b8a7s71jt6usy" path="res://Entities/Girl/Parts/Eyes/Property 1=normal.png" id="12_ctbp0"]
+[ext_resource type="Texture2D" uid="uid://c3gnu2muvj13y" path="res://Entities/Girl/Parts/HeadDown/type=curly, lenght=long.png" id="12_p2ebd"]
+[ext_resource type="Script" uid="uid://d1ddfiu42ggch" path="res://Entities/Girl/Parts/Eyes/EyesPart.cs" id="13_d578b"]
+[ext_resource type="Texture2D" uid="uid://dsao85d5evesc" path="res://Entities/Girl/Parts/HeadDown/type=curly, lenght=medium.png" id="13_usvd1"]
+[ext_resource type="Texture2D" uid="uid://c6gglk43jhak1" path="res://Entities/Girl/Parts/Eyes/Property 1=blind.png" id="14_dpelb"]
+[ext_resource type="Texture2D" uid="uid://wbgb2s81kxq0" path="res://Entities/Girl/Parts/HeadDown/type=curly, lenght=short.png" id="14_ge5ei"]
+[ext_resource type="Texture2D" uid="uid://bqurx5eejwyl8" path="res://Entities/Girl/Parts/Eyes/Property 1=grumpy.png" id="15_b3tto"]
+[ext_resource type="Texture2D" uid="uid://sfuxxgxoba4l" path="res://Entities/Girl/Parts/HeadDown/type=string, lenght=long.png" id="15_snvtl"]
+[ext_resource type="Texture2D" uid="uid://b1i0cowxhj2ga" path="res://Entities/Girl/Parts/HeadDown/type=string, lenght=medium.png" id="16_ois14"]
+[ext_resource type="Texture2D" uid="uid://dvdxnmo0nfxxv" path="res://Entities/Girl/Parts/Eyes/Property 1=surprise.png" id="16_uv8ws"]
+[ext_resource type="Texture2D" uid="uid://dberhy7w4qldu" path="res://Entities/Girl/Parts/HeadDown/type=string, lenght=short.png" id="17_obfm3"]
+[ext_resource type="Texture2D" uid="uid://dxr0wf8q6ea4r" path="res://Entities/Girl/Parts/HeadTop/Property 1=1.png" id="17_t4adu"]
+[ext_resource type="Script" uid="uid://ddn50dsxk1ncf" path="res://Entities/Girl/Parts/HeadTop/HeadTopPart.cs" id="18_5dadk"]
+[ext_resource type="Texture2D" uid="uid://cwg30rpyt6e08" path="res://Entities/Girl/Parts/HeadTop/Property 1=2.png" id="19_filpe"]
+[ext_resource type="Texture2D" uid="uid://c0flk3u1p75bs" path="res://Entities/Girl/Parts/HeadTop/Property 1=3.png" id="20_hktt6"]
+[ext_resource type="Texture2D" uid="uid://cu3cd1werwkel" path="res://Entities/Girl/Parts/Nose/Property 1=1.png" id="31_hg1ge"]
+[ext_resource type="Script" uid="uid://dm3cwai7puw6b" path="res://Entities/Girl/Parts/Nose/NosePart.cs" id="32_ivvs0"]
+[ext_resource type="Texture2D" uid="uid://btik2wic1cjfn" path="res://Entities/Girl/Parts/Nose/Property 1=2.png" id="33_sr5j2"]
+[ext_resource type="Texture2D" uid="uid://cp6clw31lw57s" path="res://Entities/Girl/Parts/Mounth/Property 1=smile.png" id="34_xdede"]
+[ext_resource type="Script" uid="uid://gu513l4kqway" path="res://Entities/Girl/Parts/Mounth/MounthPart.cs" id="35_wqsrn"]
+[ext_resource type="Texture2D" uid="uid://b66jq2ngsttip" path="res://Entities/Girl/Parts/Mounth/Property 1=big-smile.png" id="36_wrka5"]
+[ext_resource type="Texture2D" uid="uid://c2xcwmqb7ewh5" path="res://Entities/Girl/Parts/Mounth/Property 1=grumpy.png" id="37_l2033"]
+[ext_resource type="Texture2D" uid="uid://g4sb8gc1u01y" path="res://Entities/Girl/Parts/Mounth/Property 1=o.png" id="38_foike"]
+[ext_resource type="Texture2D" uid="uid://dch0kobulp017" path="res://Entities/Girl/Parts/Mounth/Property 1=Variant4.png" id="39_akvoi"]
+[ext_resource type="Texture2D" uid="uid://cyewq12h8td8f" path="res://Entities/Girl/Parts/Glasses/Property 1=vesn.png" id="40_cdq5t"]
+[ext_resource type="Script" uid="uid://2jkif52sgemw" path="res://Entities/Girl/Parts/Glasses/GlassesPart.cs" id="41_ohw7l"]
+[ext_resource type="Texture2D" uid="uid://i14pcc12tlh8" path="res://Entities/Girl/Parts/Glasses/Property 1=nothing.png" id="42_fm0on"]
+[ext_resource type="Texture2D" uid="uid://48rjbr3fnq2k" path="res://Entities/Girl/Parts/Glasses/Property 1=sun.png" id="43_81kx0"]
+[ext_resource type="Texture2D" uid="uid://bl27pfuku0gq0" path="res://Entities/Girl/Parts/Glasses/Property 1=surprise.png" id="44_51nh5"]
 
 [node name="GirlVisual" type="Node2D" unique_id=630467479 node_paths=PackedStringArray("HeatPartNode")]
 script = ExtResource("1_v35fr")
 UseHeadType = 1
 HeatPartNode = NodePath("Head")
 
+[node name="Body" type="Sprite2D" parent="." unique_id=644472139]
+position = Vector2(17, 719)
+texture = ExtResource("2_yaepv")
+script = ExtResource("3_ed4mu")
+
+[node name="Neck" type="Sprite2D" parent="." unique_id=785964391]
+position = Vector2(25, 379)
+texture = ExtResource("6_ndcr0")
+script = ExtResource("7_wqt5b")
+TypeToTexture = Dictionary[int, Texture2D]({
+0: ExtResource("6_ndcr0"),
+1: ExtResource("8_honvk"),
+2: ExtResource("9_1v3a4")
+})
+
+[node name="HeadDown" type="Sprite2D" parent="." unique_id=24967742]
+position = Vector2(2, 304)
+texture = ExtResource("8_hmv6r")
+script = ExtResource("9_002tv")
+TypeToTexture = Dictionary[int, Texture2D]({
+0: ExtResource("8_hmv6r"),
+1: ExtResource("10_fwjrf"),
+2: ExtResource("11_qvr62"),
+3: ExtResource("12_p2ebd"),
+4: ExtResource("13_usvd1"),
+5: ExtResource("14_ge5ei"),
+6: ExtResource("15_snvtl"),
+7: ExtResource("16_ois14"),
+8: ExtResource("17_obfm3")
+})
+
 [node name="Head" type="Sprite2D" parent="." unique_id=1133502435]
-texture = ExtResource("3_ntf3q")
+texture = ExtResource("2_uy60k")
 script = ExtResource("2_ntf3q")
 TypeToTexture = Dictionary[int, Texture2D]({
-0: ExtResource("3_ntf3q"),
-1: ExtResource("4_b7fk2"),
-2: ExtResource("5_hxrq4")
+0: ExtResource("2_uy60k"),
+1: ExtResource("4_jrjl3"),
+2: ExtResource("5_81h8x")
+})
+
+[node name="Eyes" type="Sprite2D" parent="." unique_id=1845796721]
+position = Vector2(-106, -33)
+texture = ExtResource("12_ctbp0")
+script = ExtResource("13_d578b")
+TypeToTexture = Dictionary[int, Texture2D]({
+0: ExtResource("14_dpelb"),
+1: ExtResource("15_b3tto"),
+2: ExtResource("12_ctbp0"),
+3: ExtResource("16_uv8ws")
+})
+
+[node name="HeadTop" type="Sprite2D" parent="." unique_id=165695594]
+position = Vector2(-40, -264)
+texture = ExtResource("17_t4adu")
+script = ExtResource("18_5dadk")
+TypeToTexture = Dictionary[int, Texture2D]({
+0: ExtResource("17_t4adu"),
+1: ExtResource("19_filpe"),
+2: ExtResource("20_hktt6")
+})
+
+[node name="Nose" type="Sprite2D" parent="." unique_id=2085296420]
+position = Vector2(-114, 75)
+texture = ExtResource("31_hg1ge")
+script = ExtResource("32_ivvs0")
+TypeToTexture = Dictionary[int, Texture2D]({
+0: ExtResource("33_sr5j2"),
+1: ExtResource("31_hg1ge")
+})
+
+[node name="Mounth" type="Sprite2D" parent="." unique_id=977493408]
+position = Vector2(-12, 123)
+texture = ExtResource("34_xdede")
+script = ExtResource("35_wqsrn")
+TypeToTexture = Dictionary[int, Texture2D]({
+0: ExtResource("36_wrka5"),
+1: ExtResource("37_l2033"),
+2: ExtResource("38_foike"),
+3: ExtResource("34_xdede"),
+4: ExtResource("39_akvoi")
+})
+
+[node name="Glasses" type="Sprite2D" parent="." unique_id=702889134]
+position = Vector2(-114, 68)
+texture = ExtResource("40_cdq5t")
+script = ExtResource("41_ohw7l")
+TypeToTexture = Dictionary[int, Texture2D]({
+0: ExtResource("42_fm0on"),
+1: ExtResource("43_81kx0"),
+2: ExtResource("44_51nh5"),
+3: ExtResource("40_cdq5t")
 })

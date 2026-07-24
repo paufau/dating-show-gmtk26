@@ -6,10 +6,10 @@ public partial class GirlVisual : Node2D
     private HeadPart.Variant UseHeadType = HeadPart.Variant.Meduim;
 
     [Export]
-    public HeadPart? HeatPartNode;
+    public HeadPart? HeadPartNode;
 
     public override void _Ready()
     {
-        HeatPartNode?.SetVariant(UseHeadType);
+        HeadPartNode?.SetVariant(UseHeadType);
     }
 }
