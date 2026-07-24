@@ -117,13 +117,14 @@ public partial class GameController : Node
 
         var pickedQuestion = Assert.NonNull(question, "Girl has no questions for her tags!");
         askedQuestions.Add(pickedQuestion);
+        girl.Data.AdvanceTagIndex();
 
         return pickedQuestion;
     }
 
     private static Question? TryPickQuestion(Girl girl, HashSet<Question> askedQuestions)
     {
-        foreach (var tag in girl.Data.GetTagsByWeight())
+        foreach (var tag in girl.Data.GetTagsFromCurrent())
         {
             if (!QuestionsRepository.RegularQuestions.TryGetValue(tag, out var questions))
             {
