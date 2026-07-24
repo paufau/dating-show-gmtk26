@@ -17,7 +17,7 @@ public static class RomanticNegative
                     [
                         new Line()
                         {
-                            Text = "Душа в комплекте с яхтой",
+                            Text = "... в комплекте с яхтой",
                             Tags = [Tags.Rich, Tags.Harsh],
                             TTL = 1,
                         },
