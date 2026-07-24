@@ -19,7 +19,7 @@ public class SimpathyManager
     {
         var lineTags = line.Tags ?? [];
 
-        return lineTags
+        var components = lineTags
             .Distinct()
             .Select(tag => new LineReactionComponent
             {
@@ -28,6 +28,17 @@ public class SimpathyManager
             })
             .Where(component => component.Power != 0)
             .ToArray();
+
+        if (
+            FeatureFlags.NegativeDominantRemovesAllPositives
+            && components.Length > 0
+            && GetDominantComponent(components).Power < 0
+        )
+        {
+            components = components.Where(component => component.Power < 0).ToArray();
+        }
+
+        return components;
     }
 
     public ReactionLine GetReaction(
@@ -43,7 +54,7 @@ public class SimpathyManager
             return GetValencedReaction(
                 girl,
                 reactionComponents.Where(component => component.Power > 0).ToArray(),
-                LinesRepository.PositiveReactionLines,
+                LinesRepository.LEGACY_PositiveReactionLines,
                 LinesRepository.DefaultPositiveReactions,
                 textsOnCooldown
             );
@@ -54,7 +65,7 @@ public class SimpathyManager
             return GetValencedReaction(
                 girl,
                 reactionComponents.Where(component => component.Power < 0).ToArray(),
-                LinesRepository.NegativeReactionLines,
+                LinesRepository.LEGACY_NegativeReactionLines,
                 LinesRepository.DefaultNegativeReactions,
                 textsOnCooldown
             );
