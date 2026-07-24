@@ -11,9 +11,94 @@ public class GirlsGenerator
 
     public IEnumerable<GirlData> Generate()
     {
-        return Enumerable
+        var girls = Enumerable
             .Range(0, GIRLS_COUNT)
-            .Select(_ => new GirlData { CharacterTags = GenerateTags() });
+            .Select(_ => new GirlData { CharacterTags = GenerateTags() })
+            .ToArray();
+
+        if (FeatureFlags.MainAndBestieGenerationFeature)
+        {
+            SpreadMainTag(girls);
+        }
+
+        return girls;
+    }
+
+    private static void SpreadMainTag(GirlData[] girls)
+    {
+        var mainTag = girls[0]
+            .CharacterTags.GroupBy(tag => tag)
+            .OrderByDescending(group => group.Count())
+            .First()
+            .Key;
+
+        PromoteToSecond(girls[1].CharacterTags, mainTag);
+
+        foreach (var girl in girls.Skip(2))
+        {
+            RemoveMainTag(girl.CharacterTags, mainTag);
+        }
+    }
+
+    private static void PromoteToSecond(Tag[] tags, Tag mainTag)
+    {
+        var counts = tags.GroupBy(tag => tag)
+            .ToDictionary(group => group.Key, group => group.Count());
+        var secondCount = counts.Values.Distinct().OrderByDescending(count => count).ElementAt(1);
+
+        if (counts.GetValueOrDefault(mainTag) == secondCount)
+        {
+            return;
+        }
+
+        var replacedTag = counts
+            .Keys.Where(tag => counts[tag] == secondCount && !tag.Equals(mainTag))
+            .PickRandom();
+
+        SwapTags(tags, replacedTag, mainTag);
+
+        if (
+            !counts.ContainsKey(mainTag)
+            && LinesRepository.TryGetOppositeTag(mainTag, out var oppositeTag)
+            && counts.ContainsKey(oppositeTag)
+            && !oppositeTag.Equals(replacedTag)
+        )
+        {
+            SwapTags(tags, oppositeTag, replacedTag);
+        }
+    }
+
+    private static void RemoveMainTag(Tag[] tags, Tag mainTag)
+    {
+        if (!tags.Contains(mainTag))
+        {
+            return;
+        }
+
+        var keptTags = tags.Where(tag => !tag.Equals(mainTag)).ToList();
+
+        var replacementTag = LinesRepository
+            .CommonTags.Where(tag =>
+                !tag.Equals(mainTag) && !keptTags.Contains(tag) && !IsOppositeOfAny(tag, keptTags)
+            )
+            .PickRandom();
+
+        SwapTags(tags, mainTag, replacementTag);
+    }
+
+    private static void SwapTags(Tag[] tags, Tag from, Tag to)
+    {
+        for (var i = 0; i < tags.Length; i++)
+        {
+            if (tags[i].Equals(from))
+            {
+                tags[i] = to;
+            }
+            else if (tags[i].Equals(to))
+            {
+                tags[i] = from;
+            }
+        }
     }
 
     private static Tag[] GenerateTags()
