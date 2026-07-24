@@ -89,6 +89,8 @@ public class LinesRepository
         { Tags.Romantic, RomanticPositive.Lines },
         { Tags.Calm, CalmPositive.Lines },
         { Tags.Harsh, HarshPositive.Lines },
+        { Tags.Smart, SmartPositive.Lines },
+        { Tags.Funny, FunnyPositive.Lines },
     };
 
     public static Dictionary<Tag, Dictionary<Tag, ReactionLine[]>> NegativeReactionLines = new()
@@ -97,6 +99,8 @@ public class LinesRepository
         { Tags.Romantic, RomanticNegative.Lines },
         { Tags.Calm, CalmNegative.Lines },
         { Tags.Harsh, HarshNegative.Lines },
+        { Tags.Smart, SmartNegative.Lines },
+        { Tags.Funny, FunnyNegative.Lines },
     };
 
     public static ReactionLine[] DefaultPositiveReactions = DefaultPositive.Reactions;
